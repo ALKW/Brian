@@ -5,9 +5,10 @@ import brain.settings as settings
 from brain.idea import Idea
 
 class IdeaChain():
-    def __init__(self):
+    def __init__(self, identifier=None):
         self.head = None
         self.tail = None
+        self.id = identifier
         self.length = 0
 
     def __str__(self):
@@ -109,6 +110,26 @@ class IdeaChain():
             other_curr = other_curr.next
 
         return True
+
+    # Return a list of the idea ids in the idea chain
+    def to_list_of_ids(self):
+        id_list = list()
+
+        # If the chain is empty print the empty chain
+        if self.head == None:
+            return []
+
+        # If the chain contains 1 element print special format
+        if self.head == self.tail:
+            return [self.head.idea.get_id()]
+
+        # Add all the idea ids of the chain to the list
+        curr = self.head
+        while curr != None:
+            id_list.append(curr.idea.get_id())
+            curr = curr.next
+
+        return id_list
 
 class IdeaChainLink():
     def __init__(self, idea):

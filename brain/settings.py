@@ -38,32 +38,33 @@ def create_id(idea):
     idea_name = idea.get_idea_name()
 
     # Append numbers to the name to differentiate ideas with the same name
-    new_idea_name = idea_name
+    idea_id = idea_name
 
     # Keep incrementing the counter until we find an index that hasnt been used yet
     counter = 0
-    while new_idea_name in ideas.keys():
-        new_idea_name = idea_name + str(counter)
+    while idea_id in ideas.keys():
+        idea_id = idea_name + str(counter)
         counter += 1
 
-    return new_idea_name
+    return idea_id
 
 # Creates a file and tracker for an idea in order to store it
 # also makes ideas globally unique    
 def create_storage(idea):
-    # Get the name of the idea
-    file_name = idea.get_idea_name()
+    # Get the id of the idea
+    file_name = idea.get_idea_id()
 
     # Create the file based on the name
-    file_ptr = open(file_name + ".brn", "w+")
+    with open(file_name + ".brn", "w+") as f:
+        # Write the idea to the file initially
+        f.write(idea.get_idea_name())
 
-    # Close the file
-    file_ptr.close()
+    return file_name
 
 ######## IDEAS ##########
-# Add the idea to the global dictionary of ideas. Key is by name
+# Add the idea to the global dictionary of ideas. Key is by id
 def add_idea(idea):
-    idea_key = idea.get_idea_name()
+    idea_key = idea.get_id()
     ideas[idea_key] = idea
 
 # Remove a group of ideas
